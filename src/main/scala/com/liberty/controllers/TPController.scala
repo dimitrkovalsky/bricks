@@ -1,25 +1,27 @@
 package com.liberty.controllers
 
-import com.liberty.utills.Logger
 import java.net.URL
 import java.util
-import javafx.scene.control.Label
 import javafx.scene.{control => jfxsc}
 import javafx.{event => jfxe}
 import javafx.{fxml => jfxf}
 import javafx.fxml.FXML
 import com.liberty.common.{TemperatureBounds, Zone}
+import javafx.scene.control.{Label, ListView, Button}
 import com.liberty.processing.{TPModel, DryingBricks, FormingBricks, PrepareCeramicMixture}
 import scalafx.scene.paint.Color
 import javafx.application.Platform
 import javafx.scene.image.ImageView
-import javafx.scene.control.ListView
 import javafx.collections.{FXCollections, ObservableList}
+import javafx.scene.control.Button
+import javafx.scene.control.Label
+import java.util.ResourceBundle
+import javafx.scene.chart.{LineChart, NumberAxis, XYChart}
 
 class TPController extends jfxf.Initializable {
 
-  @FXML private var processStatus: Label = null
   @FXML private var stage1status: Label = null
+  @FXML private var statusLabel: Label = null
   @FXML private var stage2status: Label = null
   @FXML private var stage3status: Label = null
   @FXML private var history_lv: ListView[String] = _
@@ -51,10 +53,17 @@ class TPController extends jfxf.Initializable {
   @FXML private var zone6fire: ImageView = null
   @FXML private var zone6max: Label = null
   @FXML private var zone6min: Label = null
+  @FXML private var startButton: Button = null
+  @FXML private var chart: LineChart[Int, Int] = null
+  private var chartCounter = 0
+  val series  = new XYChart.Series()
+
+  @FXML private var resources: ResourceBundle = null
   private var historyItems: ObservableList[String] = null
 
   @FXML
   private def onStartButton(event: jfxe.ActionEvent) {
+    //changeStartButtonStatus(disable = true)
     startProcessing()
   }
 
@@ -71,10 +80,22 @@ class TPController extends jfxf.Initializable {
     TPModel.initialize(zones, this)
     new Thread(new Runnable {
       override def run(): Unit = {
+        //  changeStatus(statusLabel, Zone.PROCESSING)
         zones.foreach(_.run())
+        zones.last.operation.complete()
+        changeStageStatus(3, Zone.COMPLETED)
+        //   changeStatus(statusLabel, Zone.COMPLETED)
+        // changeStartButtonStatus(disable = false)
       }
     }).start()
+  }
 
+  private def changeStartButtonStatus(disable: Boolean) {
+    Platform.runLater(new Runnable() {
+      override def run(): Unit = {
+        startButton.setDisable(disable)
+      }
+    })
   }
 
   def initialize(url: URL, rb: util.ResourceBundle) {
@@ -90,6 +111,7 @@ class TPController extends jfxf.Initializable {
     }
   }
 
+
   private def changeStatus(label: Label, status: Zone.Value) {
     import Zone._
     Platform.runLater(new Runnable() {
@@ -103,7 +125,7 @@ class TPController extends jfxf.Initializable {
           case COMPLETED => label.setText("COMPLETED")
             label.setTextFill(Color.GREEN)
           case PREPARING => label.setText("PREPARING")
-            label.setTextFill(Color.YELLOWGREEN)
+            label.setTextFill(Color.YELLOW)
           case _ =>
         }
       }
@@ -125,7 +147,7 @@ class TPController extends jfxf.Initializable {
     Platform.runLater(new Runnable() {
       override def run(): Unit = {
         labelTemp.setText(t.toString)
-        if(change == 0 ){
+        if (change == 0) {
           labelChange.setTextFill(Color.DARKBLUE)
           labelChange.setText(change.toString)
           fire.setVisible(false)
@@ -143,6 +165,7 @@ class TPController extends jfxf.Initializable {
           fire.setVisible(false)
           fan.setVisible(true)
         }
+        addToChart(t)
       }
     })
   }
@@ -184,6 +207,12 @@ class TPController extends jfxf.Initializable {
     }
   }
 
-
-
+  def addToChart(temperature: Int) {
+//    val ser = new XYChart.Series[Int,Int]()
+//    ser.getData.add(new XYChart.Data(chartCounter, temperature))
+//    chart.setTitle("Temperature")
+//
+//    //val series = XYChart.Series[Int, Int]("My portfolio", data)
+//    chart.getData.add(ser)
+  }
 }

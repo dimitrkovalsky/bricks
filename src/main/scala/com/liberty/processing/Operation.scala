@@ -26,6 +26,8 @@ abstract class Operation(operationName: String, zoneId: Int) {
     Logger.log(s"$msg => in ${System.currentTimeMillis() - start} millis")
     result
   }
+
+  def complete(){}
 }
 
 

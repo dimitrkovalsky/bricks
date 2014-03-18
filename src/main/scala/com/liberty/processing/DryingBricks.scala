@@ -45,6 +45,10 @@ case class DryingBricks(bounds: TemperatureBounds, zone: Int) extends Operation(
     }
   }
 
+  override def complete() {
+    TPModel.changeZoneStatus(zone, Zone.COMPLETED)
+  }
+
   override def execute() = {
     TPModel.changeZoneStatus(zone, Zone.PROCESSING)
     TPModel.changeZoneStatus(zone + 1, Zone.PREPARING)

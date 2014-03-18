@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import java.util.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -80,12 +81,8 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <Button fx:id="start_btn" layoutX="17.0" layoutY="367.0" mnemonicParsing="false" onAction="#onStartButton" prefHeight="22.0" prefWidth="87.0" text="Start" />
-                <Label fx:id="processStatus" layoutX="122.0" layoutY="363.0" text="NOT STARTED">
-                  <font>
-                    <Font name="System Bold" size="22.0" fx:id="x6" />
-                  </font>
-                </Label>
+                <Button fx:id="startButton" defaultButton="false" disable="false" layoutX="17.0" layoutY="367.0" mnemonicParsing="false" onAction="#onStartButton" prefHeight="22.0" prefWidth="87.0" text="Start" underline="false" />
+                <Label fx:id="stat" layoutX="134.0" layoutY="370.0" text="not started" />
               </children>
             </AnchorPane>
           </content>
@@ -106,7 +103,10 @@
                       </textFill>
                     </Label>
                     <Label font="$x3" layoutX="12.0" layoutY="64.0" text="Current :" />
-                    <Label fx:id="zone3current" font="$x6" layoutX="97.0" layoutY="59.0" text="0">
+                    <Label fx:id="zone3current" layoutX="97.0" layoutY="59.0" text="0">
+                      <font>
+                        <Font name="System Bold" size="22.0" fx:id="x6" />
+                      </font>
                       <textFill>
                         <Color blue="0.129" green="0.800" red="0.000" fx:id="x7" />
                       </textFill>
@@ -221,7 +221,18 @@
         </Tab>
         <Tab text="Graphs">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="369.0" prefWidth="523.0" />
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="369.0" prefWidth="523.0">
+              <children>
+                <LineChart id="LineChart" fx:id="chart" prefHeight="417.0" prefWidth="710.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                  </xAxis>
+                  <yAxis>
+                    <NumberAxis lowerBound="300.0" side="LEFT" upperBound="1100.0" />
+                  </yAxis>
+                </LineChart>
+              </children>
+            </AnchorPane>
           </content>
         </Tab>
       </tabs>
