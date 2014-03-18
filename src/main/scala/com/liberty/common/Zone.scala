@@ -18,7 +18,7 @@ case class Zone(zoneId: Int, operation: Operation) {
 object Zone extends Enumeration {
   val NOT_STARTED = Value("NOT_STARTED")
   val PREPARING = Value("PREPARING")
-  val EXECUTING = Value("EXECUTING")
+  val PROCESSING = Value("PROCESSING")
   val COMPLETED = Value("COMPLETED")
   val FAILED = Value("FAILED")
 }

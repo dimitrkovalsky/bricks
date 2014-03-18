@@ -1,5 +1,7 @@
 package com.liberty.utills
 
+import com.liberty.processing.TPModel
+
 /**
  * User: Dimitr
  * Date: 16.03.14
@@ -8,13 +10,18 @@ package com.liberty.utills
 object Logger {
   def log(msg: String) {
     println(msg)
+    TPModel.logHistory(msg)
   }
 
   def log(msg: String, zoneNumber: Int) {
-    println(s"[Zone # $zoneNumber] $msg => ${System.currentTimeMillis()}")
+    val message = s"[Zone # $zoneNumber] $msg => ${System.currentTimeMillis()}"
+    println(message)
+    TPModel.logHistory(message)
   }
 
   def logWithTime(msg: String)(implicit zoneNumber: Int) {
-    println(s"[Zone # $zoneNumber] $msg => ${System.currentTimeMillis()}")
+    val message = s"[Zone # $zoneNumber] $msg => ${System.currentTimeMillis()}"
+    println(message)
+    TPModel.logHistory(message)
   }
 }

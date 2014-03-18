@@ -17,6 +17,6 @@ object Main extends App {
       Zone(5, DryingBricks(TemperatureBounds(900, 920), 5)) ::
       Zone(6, DryingBricks(TemperatureBounds(540, 600), 6)) :: Nil
 
-  ParametersController.initialize(zones, null)
+  TPModel.initialize(zones, null)
   zones.foreach(_.run())
 }
