@@ -1,0 +1,4 @@
+bricks
+======
+
+Scala FX application
